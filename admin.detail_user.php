@@ -35,43 +35,50 @@ if (isset($_COOKIE["users"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
-    <h1>Welcome, admin</h1>
-    <form action="./auth.php" method="post">
-        <button type="submit" name="btnLogout">Logout</button>
-    </form>
-    <br>
-    <a href="./admin.all_blog.php">
-        <button>All Blogg</button>
-    </a>
-    <a href="./admin.all_user.php">
-        <button>All User</button>
-    </a>
-    <h1>Detail User</h1>
-    <?php
+    <div class="container mt-5">
 
-    $username = $_POST["username"];
-    $user = findUser($users, $username);
-    if ($user != null) {
-        echo '<p> Nama: ' . $user["name"] . '</p>';
-        echo '<p> Username: ' . $user["username"] . '</p>';
-        echo '<p> Password: ' . $user["password"] . '</p>';
-        echo '
-            <form action="admin.change_pwd.php" method="get" style="display:inline-block;">
-                <input type="hidden" name="username" value="' . $user["username"] . '">
-                <input type="submit" value="Change Password">
-            </form>
-            <a href="admin.all_user.php">
-                <button> Back </button>
-            </a>
-        ';
-    }
+        <h1>Welcome, <span style="color: gold;">admin</span></h1>
+        <form action="./auth.php" method="post">
+            <button type="submit" name="btnLogout" class="btn btn-danger">Logout</button>
+        </form>
+        <br>
+        <a href="./admin.all_blog.php">
+            <button class="btn btn-primary">All Blogg</button>
+        </a>
+        <a href="./admin.all_user.php">
+            <button class="btn btn-primary">All User</button>
+        </a>
 
-    ?>
+        <h2 class="mt-5">Detail User</h2>
+        <?php
+
+        $username = $_POST["username"];
+        $user = findUser($users, $username);
+        if ($user != null) {
+            echo '<p> Nama: ' . $user["name"] . '</p>';
+            echo '<p> Username: ' . $user["username"] . '</p>';
+            echo '<p> Password: ' . $user["password"] . '</p>';
+            echo '
+                <form action="admin.change_pwd.php" method="get" style="display:inline-block;">
+                    <input type="hidden" name="username" value="' . $user["username"] . '">
+                    <input type="submit" value="Change Password" class="btn btn-primary">
+                </form>
+                <a href="admin.all_user.php">
+                    <button class="btn btn-primary"> Back </button>
+                </a>
+            ';
+        }
+
+        ?>
+
+    </div>
+
 
 </body>
 

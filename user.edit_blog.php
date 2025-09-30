@@ -20,72 +20,76 @@ if (isset($_COOKIE["blogs"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
-    <?php
+    <div class="container mt-5">
 
-    $username = '';
+        <?php
 
-    if (isset($_SESSION["auth"])) {
-        echo '<h1> Welcome ' . $_SESSION['auth'] . '</h1>';
-        $username = $_SESSION['auth'];
-    } else if (isset($_COOKIE['auth'])) {
-        echo '<h1> Welcome ' . $_COOKIE['auth'] . '</h1>';
-        $username = $_COOKIE['auth'];
-    }
+        $username = '';
 
-    ?>
-    <form action="./auth.php" method="post">
-        <button type="submit" name="btnLogout">Logout</button>
-    </form>
+        if (isset($_SESSION["auth"])) {
+            echo '<h1> Welcome ' . $_SESSION['auth'] . '</h1>';
+            $username = $_SESSION['auth'];
+        } else if (isset($_COOKIE['auth'])) {
+            echo '<h1> Welcome ' . $_COOKIE['auth'] . '</h1>';
+            $username = $_COOKIE['auth'];
+        }
 
-    <br>
+        ?>
+        <form action="./auth.php" method="post">
+            <button type="submit" name="btnLogout" class="btn btn-danger">Logout</button>
+        </form>
 
-    <a href="./user.my_blog.php">
-        <button>My Blogg</button>
-    </a>
+        <br>
 
-    <a href="./user.create_blog.php">
-        <button>Create Blogg</button>
-    </a>
+        <a href="./user.my_blog.php">
+            <button class="btn btn-primary">My Blogg</button>
+        </a>
 
-    <a href="./user.more_blog.php">
-        <button>More Blogg</button>
-    </a>
+        <a href="./user.create_blog.php">
+            <button class="btn btn-primary">Create Blogg</button>
+        </a>
 
-    <h1>Edit Blogg</h1>
+        <a href="./user.more_blog.php">
+            <button class="btn btn-primary">More Blogg</button>
+        </a>
 
-    <?php
+        <h2 class="mt-3">Edit Blogg</h2>
 
-    if (isset($_GET["blog_id"])) {
-        foreach ($blogs as $blog) {
-            if ($blog["id"] == $_GET["blog_id"]) {
-                echo '
-                
-                <form action="./user.controller.php" method="post">
-                    <input type="hidden" name="blog_id" value="' . $blog["id"] . '">
-                    Title: <input type="text" name="title" value="' . $blog["title"] . '"> <br>
-                    Content: <br>
-                    <textarea name="content" cols="30" rows="10">' . $blog["content"] . '</textarea> <br>
-                    <input type="submit" value="Edit" name="editBlog">
-                </form>
-                
-                ';
+        <?php
+
+        if (isset($_GET["blog_id"])) {
+            foreach ($blogs as $blog) {
+                if ($blog["id"] == $_GET["blog_id"]) {
+                    echo '
+                    
+                    <form action="./user.controller.php" method="post">
+                        <input type="hidden" name="blog_id" value="' . $blog["id"] . '">
+                        <label for="title" class="form-label">Title</label>
+                        <input type="text" name="title" id="title" class="form-control" value="' . $blog["title"] . '"> <br>
+                        <label for="content" class="form-label">Content</label> <br>
+                        <textarea name="content" cols="30" rows="10" id="content" class="form-control">' . $blog["content"] . '</textarea> <br>
+                        <input type="submit" value="Edit" name="editBlog" class="btn btn-success">
+                    </form>
+                    
+                    ';
+                }
+            }
+
+            if (isset($_SESSION['error'])) {
+                echo '<p style="color:red;">' . $_SESSION['error'] . '</p>';
+                unset($_SESSION['error']);
             }
         }
 
-        if (isset($_SESSION['error'])) {
-            echo '<p style="color:red;">' . $_SESSION['error'] . '</p>';
-            unset($_SESSION['error']);
-        }
-    }
+        ?>
 
-    ?>
-
-
+    </div>
 
 </body>
 

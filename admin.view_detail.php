@@ -20,63 +20,59 @@ if (isset($_COOKIE["blogs"])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
 
-    <?php
+    <div class="container mt-5">
 
-    if (isset($_SESSION["auth"])) {
-        echo '<h1> Welcome ' . $_SESSION['auth'] . '</h1>';
-    } else if (isset($_COOKIE['auth'])) {
-        echo '<h1> Welcome ' . $_COOKIE['auth'] . '</h1>';
-    }
+        <h1>Welcome, <span style="color: gold;">admin</span></h1>
+        <form action="./auth.php" method="post">
+            <button type="submit" name="btnLogout" class="btn btn-danger">Logout</button>
+        </form>
+        <br>
+        <a href="./admin.all_blog.php">
+            <button class="btn btn-primary">All Blogg</button>
+        </a>
+        <a href="./admin.all_user.php">
+            <button class="btn btn-primary">All User</button>
+        </a>
 
-    ?>
-    <form action="./auth.php" method="post">
-        <button type="submit" name="btnLogout">Logout</button>
-    </form>
-    <br>
-    <a href="./admin.all_blog.php">
-        <button>All Blogg</button>
-    </a>
-    <a href="./admin.all_user.php">
-        <button>All User</button>
-    </a>
+        <?php
 
-    <?php
+        if (isset($_GET['blog_id'])) {
 
-    if (isset($_GET['blog_id'])) {
-
-        foreach ($blogs as $blog) {
-            if ($blog["id"] == $_GET['blog_id']) {
-                echo '<h1>' . $blog["title"] . '</h1>';
-                echo '<p> By ' . $blog["author"] . '</p>';
-                echo '<p>' . $blog["content"] . '</p>';
-                echo '<hr>';
-                echo '<p> Up by: ' . count($blog["up"]) . ' people </p>';
-                if (count($blog["up"]) > 0) {
-                    echo '<ul>';
-                    foreach ($blog["up"] as $up) {
-                        echo '<li>' . $up . '</li>';
+            foreach ($blogs as $blog) {
+                if ($blog["id"] == $_GET['blog_id']) {
+                    echo '<h1 class="mt-5">' . $blog["title"] . '</h1>';
+                    echo '<p> By ' . $blog["author"] . '</p>';
+                    echo '<p>' . $blog["content"] . '</p>';
+                    echo '<hr>';
+                    echo '<p> Up by: ' . count($blog["up"]) . ' people </p>';
+                    if (count($blog["up"]) > 0) {
+                        echo '<ul>';
+                        foreach ($blog["up"] as $up) {
+                            echo '<li>' . $up . '</li>';
+                        }
+                        echo '</ul>';
                     }
-                    echo '</ul>';
-                }
-                echo '<hr>';
-                echo '<p> Comments: ' . count($blog["comment"]) . '</p>';
-                if (count($blog["comment"]) > 0) {
-                    echo '<ul>';
-                    foreach ($blog["comment"] as $comment) {
-                        echo '<li> <b>' . $comment["username"] . ' : </b> ' . $comment["comment_content"] . '</li>';
+                    echo '<hr>';
+                    echo '<p> Comments: ' . count($blog["comment"]) . '</p>';
+                    if (count($blog["comment"]) > 0) {
+                        echo '<ul>';
+                        foreach ($blog["comment"] as $comment) {
+                            echo '<li> <b>' . $comment["username"] . ' : </b> ' . $comment["comment_content"] . '</li>';
+                        }
+                        echo '</ul>';
                     }
-                    echo '</ul>';
                 }
             }
         }
-    }
 
-    ?>
+        ?>
+    </div>
 
 </body>
 
